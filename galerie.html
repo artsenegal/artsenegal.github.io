@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie Complète - Gallerie Car Rapide</title>
+    <meta name="description" content="Explorez notre galerie complète de tableaux originaux inspirés par la culture sénégalaise. Toutes nos œuvres sont disponibles à la vente.">
+    <meta name="keywords" content="galerie d'art, tableaux sénégalais, œuvres d'art, peintures, Car Rapide, artiste local, art africain, décoration intérieure">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .gallery {
+            padding: 3rem 0;
+            background: #f8f9fa;
+        }
+
+        .gallery h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+
+        /* Filtres */
+        .filters {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .filters h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .sort-options, .price-filter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sort-options select, .price-filter input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        .price-filter input {
+            width: 120px;
+        }
+
+        .apply-filters {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .apply-filters:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .results-info {
+            margin-bottom: 1rem;
+            font-style: italic;
+            color: #666;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .artwork {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .artwork:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .artwork-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .artwork-image:hover {
+            transform: scale(1.02);
+        }
+
+        .artwork-info {
+            padding: 1.5rem;
+        }
+
+        .artwork-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .artwork-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+
+        .buy-button {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Lightbox Style */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 3px solid white;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-lightbox:hover {
+            color: #ccc;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Menu mobile */
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                gap: 1rem;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-button {
+                display: block;
+            }
+
+            .filter-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Gallerie Car Rapide</a>
+            <button class="mobile-menu-button" id="mobileMenuButton">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="propos.html">À propos</a></li>
+                <li><a href="galerie.html">Galerie</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="gallery">
+        <div class="container">
+            <h2>Galerie Complète</h2>
+            
+            <!-- Filtres -->
+            <div class="filters">
+                <h3>Filtrer les œuvres</h3>
+                <div class="filter-group">
+                    <div class="sort-options">
+                        <label for="sort">Trier par prix:</label>
+                        <select id="sort">
+                            <option value="default">Par défaut</option>
+                            <option value="asc">Croissant</option>
+                            <option value="desc">Décroissant</option>
+                        </select>
+                    </div>
+                    
+                    <div class="price-filter">
+                        <label for="min-price">Prix min (FCFA):</label>
+                        <input type="number" id="min-price" placeholder="Min" min="0">
+                    </div>
+                    
+                    <div class="price-filter">
+                        <label for="max-price">Prix max (FCFA):</label>
+                        <input type="number" id="max-price" placeholder="Max" min="0">
+                    </div>
+                    
+                    <button class="apply-filters" id="applyFilters">Appliquer les filtres</button>
+                </div>
+                <div class="results-info" id="resultsInfo">48 œuvres disponibles</div>
+            </div>
+            
+            <div class="gallery-grid" id="galleryGrid">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Gallerie Car Rapide. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img id="lightbox-image" src="" alt="Agrandissement de l'œuvre">
+    </div>
+
+    <script>
+        const artworks = [
+            {
+                id: 1,
+                title: "Tableau 1",
+                image: "1.png",
+                description: "Dimensions: 75x100cm",
+                price: 30000
+            },
+            {
+                id: 2,
+                title: "Tableau 2",
+                image: "2.png",
+                description: "Dimensions: 75x100cm",
+                price: 30000
+            },
+            {
+                id: 3,
+                title: "Tableau 3",
+                image: "3.png",
+                description: "Dimensions: 90x95cm",
+                price: 50000
+            },
+            {
+                id: 4,
+                title: "Tableau 4",
+                image: "4.png",
+                description: "Dimensions: 80x105cm",
+                price: 30000
+            },
+            {
+                id: 5,
+                title: "Tableau 5",
+                image: "5.png",
+                description: "Dimensions: 80x105cm",
+                price: 30000
+            },
+            {
+                id: 6,
+                title: "Tableau 6",
+                image: "6.png",
+                description: "Dimensions: 80x100cm",
+                price: 30000
+            },
+            {
+                id: 7,
+                title: "Tableau 7",
+                image: "7.png",
+                description: "Dimensions: 85x100cm",
+                price: 30000
+            },
+            {
+                id: 8,
+                title: "Tableau 8",
+                image: "8.png",
+                description: "Dimensions: 80x105cm",
+                price: 30000
+            },
+            {
+                id: 9,
+                title: "Tableau 9",
+                image: "9.png",
+                description: "Dimensions: 80x100cm",
+                price: 30000
+            },
+            {
+                id: 10,
+                title: "Tableau 10",
+                image: "10.png",
+                description: "Dimensions: 90x105cm",
+                price: 40000
+            },
+            {
+                id: 11,
+                title: "Tableau 11",
+                image: "11.png",
+                description: "Dimensions: 75x100cm",
+                price: 50000
+            },
+            {
+                id: 12,
+                title: "Tableau 12",
+                image: "12.png",
+                description: "Dimensions: 75x100cm",
+                price: 30000
+            },
+            {
+                id: 13,
+                title: "Tableau 13",
+                image: "13.png",
+                description: "Dimensions: 80x105cm",
+                price: 50000
+            },
+            {
+                id: 14,
+                title: "Tableau 14",
+                image: "14.png",
+                description: "Dimensions: 110x115cm",
+                price: 50000
+            },
+            {
+                id: 15,
+                title: "Tableau 15",
+                image: "15.png",
+                description: "Dimensions: 75x95cm",
+                price: 20000
+            },
+            {
+                id: 16,
+                title: "Tableau 16",
+                image: "16.png",
+                description: "Dimensions: 80x105cm",
+                price: 20000
+            },
+            {
+                id: 17,
+                title: "Tableau 17",
+                image: "17.png",
+                description: "Dimensions: 75x120cm",
+                price: 50000
+            },
+            {
+                id: 18,
+                title: "Tableau 18",
+                image: "18.png",
+                description: "Dimensions: 75x120cm",
+                price: 50000
+            },
+            {
+                id: 19,
+                title: "Tableau 19",
+                image: "19.png",
+                description: "Dimensions: 105x120cm",
+                price: 80000
+            },
+            {
+                id: 20,
+                title: "Tableau 20",
+                image: "20.png",
+                description: "Dimensions: 105x105cm",
+                price: 80000
+            },
+            {
+                id: 21,
+                title: "Tableau 21",
+                image: "21.png",
+                description: "Dimensions: 90x105cm",
+                price: 50000
+            },
+            {
+                id: 22,
+                title: "Tableau 22",
+                image: "22.png",
+                description: "Dimensions: 90x100cm",
+                price: 30000
+            },
+            {
+                id: 23,
+                title: "Tableau 23",
+                image: "23.png",
+                description: "Dimensions: 70x10cm",
+                price: 70000
+            },
+            {
+                id: 24,
+                title: "Tableau 24",
+                image: "24.png",
+                description: "Dimensions: 140x145cm",
+                price: 100000
+            },
+            {
+                id: 25,
+                title: "Tableau 25",
+                image: "25.png",
+                description: "Dimensions: 150x180cm",
+                price: 100000
+            },
+            {
+                id: 26,
+                title: "Tableau 26",
+                image: "26.png",
+                description: "Dimensions: 90x105cm",
+                price: 50000
+            },
+            {
+                id: 27,
+                title: "Tableau 27",
+                image: "27.png",
+                description: "Dimensions: 90x105cm",
+                price: 50000
+            },
+            {
+                id: 28,
+                title: "Tableau 28",
+                image: "28.png",
+                description: "Dimensions: 105x110cm",
+                price: 50000
+            },
+            {
+                id: 29,
+                title: "Tableau 29",
+                image: "29.png",
+                description: "Dimensions: 85x160cm",
+                price: 100000
+            },
+            {
+                id: 30,
+                title: "Tableau 30",
+                image: "30.png",
+                description: "Dimensions: 85x160cm",
+                price: 100000
+            },
+            {
+                id: 31,
+                title: "Tableau 31",
+                image: "31.png",
+                description: "Dimensions: 90x105cm",
+                price: 50000
+            },
+            {
+                id: 32,
+                title: "Tableau 32",
+                image: "32.png",
+                description: "Dimensions: 100x100cm",
+                price: 30000
+            },
+            {
+                id: 33,
+                title: "Tableau 33",
+                image: "33.png",
+                description: "Dimensions: 70x115cm",
+                price: 30000
+            },
+            {
+                id: 34,
+                title: "Tableau 34",
+                image: "34.png",
+                description: "Dimensions: 65x120cm",
+                price: 30000
+            },
+            {
+                id: 35,
+                title: "Tableau 35",
+                image: "35.png",
+                description: "Dimensions: 80x100cm",
+                price: 30000
+            },
+            {
+                id: 36,
+                title: "Tableau 36",
+                image: "36.png",
+                description: "Dimensions: 95x100cm",
+                price: 40000
+            },
+            {
+                id: 37,
+                title: "Tableau 37",
+                image: "37.png",
+                description: "Dimensions: 65x105cm",
+                price: 30000
+            },
+            {
+                id: 38,
+                title: "Tableau 38",
+                image: "38.png",
+                description: "Dimensions: 100x140cm",
+                price: 70000
+            },
+            {
+                id: 39,
+                title: "Tableau 39",
+                image: "39.png",
+                description: "Dimensions: 100x105cm",
+                price: 100000
+            },
+            {
+                id: 40,
+                title: "Tableau 40",
+                image: "40.png",
+                description: "Dimensions: 105x110cm",
+                price: 50000
+            },
+            {
+                id: 41,
+                title: "Tableau 41",
+                image: "41.png",
+                description: "Dimensions: 75x110cm",
+                price: 20000
+            },
+            {
+                id: 42,
+                title: "Tableau 42",
+                image: "42.png",
+                description: "Dimensions: 100x210cm",
+                price: 100000
+            },
+            {
+                id: 43,
+                title: "Tableau 43",
+                image: "43.png",
+                description: "Dimensions: 100x110cm",
+                price: 50000
+            },
+            {
+                id: 44,
+                title: "Tableau 44",
+                image: "44.png",
+                description: "Dimensions: 105x110cm",
+                price: 50000
+            },
+            {
+                id: 45,
+                title: "Tableau 45",
+                image: "45.png",
+                description: "Dimensions: 80x105cm",
+                price: 30000
+            },
+            {
+                id: 46,
+                title: "Tableau 46",
+                image: "46.png",
+                description: "Dimensions: 90x180cm",
+                price: 130000
+            },
+            {
+                id: 47,
+                title: "Tableau 47",
+                image: "47.png",
+                description: "Dimensions: 103x120cm",
+                price: 60000
+            },
+            {
+                id: 48,
+                title: "Tableau 48",
+                image: "48.png",
+                description: "Dimensions: 105x140cm",
+                price: 100000
+            },
+        ];
+
+        // Gestion du menu mobile
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuButton.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Fonction pour formater le prix
+        function formatPrice(price) {
+            return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
+        }
+
+        // Fonction pour afficher les œuvres
+        function displayArtworks(artworksToDisplay) {
+            const galleryGrid = document.getElementById('galleryGrid');
+            galleryGrid.innerHTML = '';
+            
+            artworksToDisplay.forEach(artwork => {
+                const artworkElement = document.createElement('div');
+                artworkElement.className = 'artwork';
+                artworkElement.innerHTML = `
+                    <img src="${artwork.image}" alt="${artwork.title}" class="artwork-image">
+                    <div class="artwork-info">
+                        <h3>${artwork.title}</h3>
+                        <p>${artwork.description}</p>
+                        <div class="price">${formatPrice(artwork.price)}</div>
+                        <button class="buy-button">Contacter pour commander</button>
+                    </div>
+                `;
+                galleryGrid.appendChild(artworkElement);
+            });
+            
+            // Mettre à jour le compteur de résultats
+            document.getElementById('resultsInfo').textContent = 
+                `${artworksToDisplay.length} œuvre${artworksToDisplay.length !== 1 ? 's' : ''} disponible${artworksToDisplay.length !== 1 ? 's' : ''}`;
+            
+            // Réattacher les événements
+            attachEventListeners();
+        }
+
+        // Fonction pour attacher les écouteurs d'événements
+        function attachEventListeners() {
+            // Lightbox functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-image');
+            const closeLightbox = document.querySelector('.close-lightbox');
+
+            document.querySelectorAll('.artwork-image').forEach(image => {
+                image.addEventListener('click', function() {
+                    lightbox.classList.add('active');
+                    lightboxImg.src = this.src;
+                    lightboxImg.alt = this.alt;
+                });
+            });
+
+            closeLightbox.addEventListener('click', function() {
+                lightbox.classList.remove('active');
+            });
+
+            lightbox.addEventListener('click', function(e) {
+                if (e.target !== lightboxImg) {
+                    lightbox.classList.remove('active');
+                }
+            });
+
+            // Buy button functionality
+            document.querySelectorAll('.buy-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const artwork = this.closest('.artwork');
+                    const title = artwork.querySelector('h3').textContent;
+                    const price = artwork.querySelector('.price').textContent;
+                    
+                    window.location.href = `contact.html?subject=Commande: ${encodeURIComponent(title)} (${encodeURIComponent(price)})`;
+                });
+            });
+
+            // Animation avec Intersection Observer
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.artwork').forEach(artwork => {
+                artwork.style.opacity = '0';
+                artwork.style.transform = 'translateY(30px)';
+                artwork.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(artwork);
+            });
+        }
+
+        // Fonction pour filtrer et trier les œuvres
+        function filterAndSortArtworks() {
+            const sortOption = document.getElementById('sort').value;
+            const minPrice = document.getElementById('min-price').value ? parseInt(document.getElementById('min-price').value) : 0;
+            const maxPrice = document.getElementById('max-price').value ? parseInt(document.getElementById('max-price').value) : Number.MAX_SAFE_INTEGER;
+            
+            let filteredArtworks = artworks.filter(artwork => 
+                artwork.price >= minPrice && artwork.price <= maxPrice
+            );
+            
+            if (sortOption === 'asc') {
+                filteredArtworks.sort((a, b) => a.price - b.price);
+            } else if (sortOption === 'desc') {
+                filteredArtworks.sort((a, b) => b.price - a.price);
+            }
+            
+            displayArtworks(filteredArtworks);
+        }
+
+        // Initialiser la galerie
+        document.addEventListener('DOMContentLoaded', function() {
+            displayArtworks(artworks);
+            
+            // Appliquer les filtres au clic sur le bouton
+            document.getElementById('applyFilters').addEventListener('click', filterAndSortArtworks);
+            
+            // Appliquer les filtres lors du changement de tri
+            document.getElementById('sort').addEventListener('change', filterAndSortArtworks);
+        });
+    </script>
+</body>
+</html>
